@@ -574,15 +574,17 @@ const Buffer = Module("buffer", {
 
             // <link>s have higher priority than normal <a> hrefs
             let elems = frame.document.getElementsByTagName("link");
-            for (let elem of iter(elems)) {
-                liberator.open(elem.href);
+            let last_elem = Array.from(elems).slice(-1)[0]
+            if (last_elem != undefined) {
+                liberator.open(last_elem.href);
                 return true;
             }
 
             // no links? ok, look for hrefs
             elems = frame.document.getElementsByTagName("a");
-            for (let elem of iter(elems)) {
-                buffer.followLink(elem, liberator.CURRENT_TAB);
+            last_elem = Array.from(elems).slice(-1)[0]
+            if (last_elem != undefined) {
+                buffer.followLink(last_elem, liberator.CURRENT_TAB);
                 return true;
             }
 
